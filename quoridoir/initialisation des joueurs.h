@@ -1,0 +1,8 @@
+//
+// Created by antoi on 02/11/2024.
+//
+
+#ifndef INITIALISATION_DES_JOUEURS_H
+#define INITIALISATION_DES_JOUEURS_H
+
+#endif //INITIALISATION_DES_JOUEURS_H
