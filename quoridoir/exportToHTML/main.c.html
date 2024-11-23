@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>main.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #b3ae60;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #2aacb8;}
+.s4 { color: #7a7e85;}
+.s5 { color: #cf8e6d;}
+.s6 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&lt;stdio.h&gt;</span>
+
+
+<span class="s0">#define </span><span class="s1">BOARDSIZE </span><span class="s3">7</span>
+<span class="s0">#define </span><span class="s1">WALLS </span><span class="s3">10</span>
+
+<span class="s4">// Représentations des joueurs</span>
+<span class="s5">char </span><span class="s1">board</span><span class="s6">[</span><span class="s1">BOARDSIZE</span><span class="s6">][</span><span class="s1">BOARDSIZE</span><span class="s6">];</span>
+<span class="s5">int </span><span class="s1">player1_x </span><span class="s6">= </span><span class="s3">0</span><span class="s6">, </span><span class="s1">player1_y </span><span class="s6">= </span><span class="s3">3</span><span class="s6">;</span>
+<span class="s5">int </span><span class="s1">player2_x </span><span class="s6">= </span><span class="s3">6</span><span class="s6">, </span><span class="s1">player2_y </span><span class="s6">= </span><span class="s3">3</span><span class="s6">;</span>
+<span class="s5">int </span><span class="s1">walls_player1 </span><span class="s6">= </span><span class="s1">WALLS</span><span class="s6">, </span><span class="s1">walls_player2 </span><span class="s6">= </span><span class="s1">WALLS</span><span class="s6">;</span>
+
+<span class="s4">// Initialisation du plateau</span>
+<span class="s5">void </span><span class="s1">initialize_board</span><span class="s6">() {</span>
+    <span class="s5">for </span><span class="s6">(</span><span class="s5">int </span><span class="s1">i </span><span class="s6">= </span><span class="s3">0</span><span class="s6">; </span><span class="s1">i </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE</span><span class="s6">; </span><span class="s1">i</span><span class="s6">++) {</span>
+        <span class="s5">for </span><span class="s6">(</span><span class="s5">int </span><span class="s1">j </span><span class="s6">= </span><span class="s3">0</span><span class="s6">; </span><span class="s1">j </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE</span><span class="s6">; </span><span class="s1">j</span><span class="s6">++) {</span>
+            <span class="s1">board</span><span class="s6">[</span><span class="s1">i</span><span class="s6">][</span><span class="s1">j</span><span class="s6">] = </span><span class="s2">' '</span><span class="s6">;</span>
+        <span class="s6">}</span>
+    <span class="s6">}</span>
+    <span class="s1">board</span><span class="s6">[</span><span class="s1">player1_x</span><span class="s6">][</span><span class="s1">player1_y</span><span class="s6">] = </span><span class="s2">'1'</span><span class="s6">; </span><span class="s4">// Position de joueur 1</span>
+    <span class="s1">board</span><span class="s6">[</span><span class="s1">player2_x</span><span class="s6">][</span><span class="s1">player2_y</span><span class="s6">] = </span><span class="s2">'2'</span><span class="s6">; </span><span class="s4">// Position de joueur 2</span>
+<span class="s6">}</span>
+
+<span class="s4">// Affichage du plateau</span>
+<span class="s5">void </span><span class="s1">show_board</span><span class="s6">() {</span>
+    <span class="s5">for </span><span class="s6">(</span><span class="s5">int </span><span class="s1">i </span><span class="s6">= </span><span class="s3">0</span><span class="s6">; </span><span class="s1">i </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE</span><span class="s6">; </span><span class="s1">i</span><span class="s6">++) {</span>
+        <span class="s5">for </span><span class="s6">(</span><span class="s5">int </span><span class="s1">j </span><span class="s6">= </span><span class="s3">0</span><span class="s6">; </span><span class="s1">j </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE</span><span class="s6">; </span><span class="s1">j</span><span class="s6">++) {</span>
+            <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;%c &quot;</span><span class="s6">, </span><span class="s1">board</span><span class="s6">[</span><span class="s1">i</span><span class="s6">][</span><span class="s1">j</span><span class="s6">]);</span>
+        <span class="s6">}</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+    <span class="s6">}</span>
+<span class="s6">}</span>
+
+<span class="s4">// Déplacement des joueurs</span>
+<span class="s5">void </span><span class="s1">play_move</span><span class="s6">(</span><span class="s5">int </span><span class="s1">player</span><span class="s6">, </span><span class="s5">int </span><span class="s1">x</span><span class="s6">, </span><span class="s5">int </span><span class="s1">y</span><span class="s6">) {</span>
+    <span class="s5">if </span><span class="s6">(</span><span class="s1">x </span><span class="s6">&gt;= </span><span class="s3">0 </span><span class="s6">&amp;&amp; </span><span class="s1">x </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE </span><span class="s6">&amp;&amp; </span><span class="s1">y </span><span class="s6">&gt;= </span><span class="s3">0 </span><span class="s6">&amp;&amp; </span><span class="s1">y </span><span class="s6">&lt; </span><span class="s1">BOARDSIZE </span><span class="s6">&amp;&amp; </span><span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] == </span><span class="s2">' '</span><span class="s6">) {</span>
+        <span class="s5">if </span><span class="s6">(</span><span class="s1">player </span><span class="s6">== </span><span class="s3">1</span><span class="s6">) {</span>
+            <span class="s1">board</span><span class="s6">[</span><span class="s1">player1_x</span><span class="s6">][</span><span class="s1">player1_y</span><span class="s6">] = </span><span class="s2">' '</span><span class="s6">;</span>
+            <span class="s1">player1_x </span><span class="s6">= </span><span class="s1">x</span><span class="s6">;</span>
+            <span class="s1">player1_y </span><span class="s6">= </span><span class="s1">y</span><span class="s6">;</span>
+            <span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] = </span><span class="s2">'1'</span><span class="s6">;</span>
+        <span class="s6">} </span><span class="s5">else if </span><span class="s6">(</span><span class="s1">player </span><span class="s6">== </span><span class="s3">2</span><span class="s6">) {</span>
+            <span class="s1">board</span><span class="s6">[</span><span class="s1">player2_x</span><span class="s6">][</span><span class="s1">player2_y</span><span class="s6">] = </span><span class="s2">' '</span><span class="s6">;</span>
+            <span class="s1">player2_x </span><span class="s6">= </span><span class="s1">x</span><span class="s6">;</span>
+            <span class="s1">player2_y </span><span class="s6">= </span><span class="s1">y</span><span class="s6">;</span>
+            <span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] = </span><span class="s2">'2'</span><span class="s6">;</span>
+        <span class="s6">}</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Player %d moved to (%d, %d)</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">, </span><span class="s1">player</span><span class="s6">, </span><span class="s1">x</span><span class="s6">, </span><span class="s1">y</span><span class="s6">);</span>
+    <span class="s6">} </span><span class="s5">else </span><span class="s6">{</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Invalid move!</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+    <span class="s6">}</span>
+<span class="s6">}</span>
+
+<span class="s4">// Placement des murs</span>
+<span class="s5">void </span><span class="s1">play_wall</span><span class="s6">(</span><span class="s5">int </span><span class="s1">player</span><span class="s6">, </span><span class="s5">int </span><span class="s1">x</span><span class="s6">, </span><span class="s5">int </span><span class="s1">y</span><span class="s6">) {</span>
+    <span class="s5">if </span><span class="s6">(</span><span class="s1">player </span><span class="s6">== </span><span class="s3">1 </span><span class="s6">&amp;&amp; </span><span class="s1">walls_player1 </span><span class="s6">&gt; </span><span class="s3">0 </span><span class="s6">&amp;&amp; </span><span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] == </span><span class="s2">' '</span><span class="s6">) {</span>
+        <span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] = </span><span class="s2">'|'</span><span class="s6">;</span>
+        <span class="s1">walls_player1</span><span class="s6">--;</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Player 1 placed a wall at (%d, %d)</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">, </span><span class="s1">x</span><span class="s6">, </span><span class="s1">y</span><span class="s6">);</span>
+    <span class="s6">} </span><span class="s5">else if </span><span class="s6">(</span><span class="s1">player </span><span class="s6">== </span><span class="s3">2 </span><span class="s6">&amp;&amp; </span><span class="s1">walls_player2 </span><span class="s6">&gt; </span><span class="s3">0 </span><span class="s6">&amp;&amp; </span><span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] == </span><span class="s2">' '</span><span class="s6">) {</span>
+        <span class="s1">board</span><span class="s6">[</span><span class="s1">x</span><span class="s6">][</span><span class="s1">y</span><span class="s6">] = </span><span class="s2">'|'</span><span class="s6">;</span>
+        <span class="s1">walls_player2</span><span class="s6">--;</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Player 2 placed a wall at (%d, %d)</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">, </span><span class="s1">x</span><span class="s6">, </span><span class="s1">y</span><span class="s6">);</span>
+    <span class="s6">} </span><span class="s5">else </span><span class="s6">{</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Cannot place wall!</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+    <span class="s6">}</span>
+<span class="s6">}</span>
+
+<span class="s4">// Vérification du gagnant</span>
+<span class="s5">int </span><span class="s1">check_winner</span><span class="s6">() {</span>
+    <span class="s5">if </span><span class="s6">(</span><span class="s1">player1_x </span><span class="s6">== </span><span class="s1">BOARDSIZE </span><span class="s6">- </span><span class="s3">1</span><span class="s6">) {</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Player 1 wins!</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+        <span class="s5">return </span><span class="s3">1</span><span class="s6">;</span>
+    <span class="s6">} </span><span class="s5">else if </span><span class="s6">(</span><span class="s1">player2_x </span><span class="s6">== </span><span class="s3">0</span><span class="s6">) {</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Player 2 wins!</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+        <span class="s5">return </span><span class="s3">2</span><span class="s6">;</span>
+    <span class="s6">}</span>
+    <span class="s5">return </span><span class="s3">0</span><span class="s6">;</span>
+<span class="s6">}</span>
+
+<span class="s5">int </span><span class="s1">main</span><span class="s6">() {</span>
+    <span class="s1">initialize_board</span><span class="s6">();</span>
+    <span class="s5">int </span><span class="s1">winner </span><span class="s6">= </span><span class="s3">0</span><span class="s6">;</span>
+    <span class="s5">while </span><span class="s6">(!</span><span class="s1">winner</span><span class="s6">) {</span>
+        <span class="s1">show_board</span><span class="s6">();</span>
+        <span class="s5">int </span><span class="s1">player</span><span class="s6">, </span><span class="s1">x</span><span class="s6">, </span><span class="s1">y</span><span class="s6">;</span>
+        <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Enter move (player x y): &quot;</span><span class="s6">);</span>
+        <span class="s1">scanf</span><span class="s6">(</span><span class="s2">&quot;%d %d %d&quot;</span><span class="s6">, &amp;</span><span class="s1">player</span><span class="s6">, &amp;</span><span class="s1">x</span><span class="s6">, &amp;</span><span class="s1">y</span><span class="s6">);</span>
+
+        <span class="s5">if </span><span class="s6">(</span><span class="s1">player </span><span class="s6">== </span><span class="s3">1 </span><span class="s6">|| </span><span class="s1">player </span><span class="s6">== </span><span class="s3">2</span><span class="s6">) {</span>
+            <span class="s1">play_move</span><span class="s6">(</span><span class="s1">player</span><span class="s6">, </span><span class="s1">x</span><span class="s6">, </span><span class="s1">y</span><span class="s6">);</span>
+            <span class="s1">winner </span><span class="s6">= </span><span class="s1">check_winner</span><span class="s6">();</span>
+        <span class="s6">} </span><span class="s5">else </span><span class="s6">{</span>
+            <span class="s1">printf</span><span class="s6">(</span><span class="s2">&quot;Invalid player!</span><span class="s5">\n</span><span class="s2">&quot;</span><span class="s6">);</span>
+        <span class="s6">}</span>
+    <span class="s6">}</span>
+    <span class="s5">return </span><span class="s3">0</span><span class="s6">;</span>
+<span class="s6">}</span>
+</pre>
+</body>
+</html>
