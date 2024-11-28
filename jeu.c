@@ -1,24 +1,33 @@
 #include "jeu.h"
 #include <stdio.h>
 
-
 void jouer_deplacement(Jeu *jeu, int joueur, int x, int y) {
-   if (x >= 0 && x < TAILLE_PLATEAU && y >= 0 && y < TAILLE_PLATEAU && jeu->plateau[x][y] == ' ') {
-       if (joueur == 1) {
-           jeu->plateau[jeu->joueur1_x][jeu->joueur1_y] = ' ';
-           jeu->joueur1_x = x;
-           jeu->joueur1_y = y;
-           jeu->plateau[x][y] = '1';
-       } else if (joueur == 2) {
-           jeu->plateau[jeu->joueur2_x][jeu->joueur2_y] = ' ';
-           jeu->joueur2_x = x;
-           jeu->joueur2_y = y;
-           jeu->plateau[x][y] = '2';
+
+
+   if (x < 0 || x >= TAILLE_PLATEAU || y < 0 || y >= TAILLE_PLATEAU) {
+       printf("Deplacement invalide : Hors du plateau !\n");
+       return;
+   }
+   int *joueur_x = (joueur == 1) ? &jeu->joueur1_x : &jeu->joueur2_x;
+   int *joueur_y = (joueur == 1) ? &jeu->joueur1_y : &jeu->joueur2_y;
+   if (((*joueur_x == x) && (abs(*joueur_y - y) == 1)) || ((*joueur_y == y) && (abs(*joueur_x - x) == 1))) {
+
+
+       if (jeu->plateau[x][y] == ' ') {
+
+
+           jeu->plateau[*joueur_x][*joueur_y] = ' ';
+           *joueur_x = x;
+           *joueur_y = y;
+           jeu->plateau[x][y] = (joueur == 1) ? '1' : '2';  // Mettre à jour la case de destination
+       } else {
+           printf("Deplacement invalide : Case occupee !\n");
        }
    } else {
-       printf("Déplacement invalide !\n");
+       printf("Deplacement invalide : Vous devez vous deplacer d'une seule case horizontalement ou verticalement.\n");
    }
 }
+
 
 
 void jouer_mur(Jeu *jeu, int joueur, int x1, int y1, int x2, int y2) {
