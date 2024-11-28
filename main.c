@@ -43,3 +43,14 @@ int main() {
    printf("Félicitations au joueur %d pour sa victoire !\n", gagnant);
    return 0;
 }
+
+/*
+1. KooR.fr
+2. OpenClassrooms - Apprenez à programmer en C
+3. GeeksforGeeks - C Programming
+4. Git - Documentation officielle
+5. ECE Paris - Projet Informatique 1
+6. Quoridor - GitHub
+7. Gamecodeur - Demo Reel 2021-2022
+*/
+
